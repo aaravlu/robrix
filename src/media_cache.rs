@@ -61,14 +61,14 @@ impl MediaCache {
     /// This function only for images.
     /// Never call this method on populating audio, video, etc.
     pub fn image_set_keys(&mut self, original_uri: &OwnedMxcUri, thumbnail_uri: Option<&OwnedMxcUri>) {
-        if let Entry::Vacant(v) = self.cache.entry(original_uri.clone()) {
-            v.insert((thumbnail_uri.cloned(), Arc::new(Mutex::new(MediaCacheEntry::NotInitialized))));
-        }
+        // if let Entry::Vacant(v) = self.cache.entry(original_uri.clone()) {
+            self.cache.insert(original_uri.clone(), (thumbnail_uri.cloned(), Arc::new(Mutex::new(MediaCacheEntry::NotInitialized))));
+        // }
 
         if let Some(thumbnail_uri) = thumbnail_uri {
-            if let Entry::Vacant(v) = self.cache.entry(thumbnail_uri.clone()) {
-                v.insert((None, Arc::new(Mutex::new(MediaCacheEntry::Requested))));
-            }
+            // if let Entry::Vacant(v) = self.cache.entry(thumbnail_uri.clone()) {
+                self.cache.insert(thumbnail_uri.clone(), (None, Arc::new(Mutex::new(MediaCacheEntry::Requested))));
+            // }
         }
     }
 
